@@ -1,20 +1,20 @@
-import React from 'react'
-import classes from './Header.module.css'
-import mealsImage from '../../assets/meals.jpg'
-import HeaderCartButton from './HeaderCartButton'
+import React from "react";
+import classes from "./Header.module.css";
+import mealsImage from "../../assets/meals.jpg";
+import HeaderCartButton from "./HeaderCartButton";
 
-const Header = () => {
+const Header = (props) => {
     return (
         <>
             <header className={classes.header}>
-                <h1>Meals</h1>
-                <HeaderCartButton />
+                <h1>Meals To Go</h1>
+                <HeaderCartButton onClick={props.onShowCart} />
             </header>
-            <div className={classes['main-image']}>
+            <div className={classes["main-image"]}>
                 <img src={mealsImage} alt="Order your favorite meals" />
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;
