@@ -6,11 +6,15 @@ import MealItem from "./MealItem/MealItem";
 const AvailableMeals = () => {
     const [meals, setMeals] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [httpError, setHttpError] = useState();
     useEffect(() => {
         const fetchMeals = async () => {
             const response = await fetch(
                 "https://food-order-88ddf-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json"
             );
+            if (!response.ok) {
+                throw new Error("Something went wrong!");
+            }
             const responseData = await response.json();
             const loadedMeals = [];
             for (const key in responseData) {
@@ -23,7 +27,10 @@ const AvailableMeals = () => {
             }
             setMeals(loadedMeals);
         };
-        fetchMeals();
+        fetchMeals().catch((err) => {
+            setHttpError(err.message);
+        });
+
         setIsLoading(false);
     }, []);
 
@@ -32,6 +39,15 @@ const AvailableMeals = () => {
             <section className={classes.meals}>
                 <Card>
                     <p>Loading...</p>
+                </Card>
+            </section>
+        );
+    }
+    if (httpError) {
+        return (
+            <section className={classes.meals}>
+                <Card>
+                    <p>{httpError}</p>
                 </Card>
             </section>
         );
